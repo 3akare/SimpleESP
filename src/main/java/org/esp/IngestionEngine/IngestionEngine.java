@@ -24,6 +24,7 @@ public class IngestionEngine {
         try {
             serverSocket = new ServerSocket(this.ingestionPort);
             System.out.println("[Ingestion Engine]: Started and listening on port " + this.ingestionPort);
+
             while (true) {
                 Socket socket;
                 System.out.println("[Ingestion Engine]: Waiting for a client connection...");
