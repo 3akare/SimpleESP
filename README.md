@@ -86,25 +86,24 @@ The project is structured into the following main components:
 ## How to Run and Test
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/3akare/[].git
-    cd [your-repo-folder]
+    git clone https://github.com/3akare/SimpleESP.git
     ```
 2.  **Build the project:**
     ```bash
     # Using Maven:
-    mvn clean install
+    mvn clean install package
     ```
 3.  **Run the application:**
     ```bash
     # Using Maven:
-    mvn exec:java -Dexec.mainClass="[Your Main Application Class, e.g., SimpleEspApplication]"
+    java -jar target/SimpleESP-1.0-SNAPSHOT.jar 
     ```
-    The application should start and the Ingestion Engine will begin listening on the configured port (defaulting to 9999).
+    The application should start and the Ingestion Engine will begin listening on the configured port (defaulting to 8080).
 4.  **Send test data using `nc` (netcat):**
     * Open a terminal.
     * Connect to the server:
         ```bash
-        nc localhost 9999
+        nc localhost 8080
         ```
     * Type numbers (one per line) and press Enter. You should see the raw input in the Ingestion Engine console and the calculated rolling average/filter output in the Output Engine console.
     * Type `stop` and press Enter to close the connection from that client. The server will then listen for the next connection.
@@ -116,7 +115,6 @@ The project is structured into the following main components:
         ```
 
 ## Limitations of this Simplified Version
-
 It is important to understand that this SimpleESP is a learning and portfolio project and has significant limitations compared to production-ready Event Stream Processing platforms like Apache Kafka Streams, Apache Flink, etc. These limitations were deliberate to focus on core concepts without overwhelming complexity:
 * **No Distribution:** The entire system runs as a single application instance on one machine. It cannot scale horizontally to handle high data volumes beyond the capacity of that machine.
 * **No Robust Fault Tolerance:** If the application crashes or the machine fails, processing stops, and any in-memory state is lost. There are no mechanisms for automatic recovery or ensuring data is not lost or processed exactly once in case of failures.
