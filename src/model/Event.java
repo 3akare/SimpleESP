@@ -3,7 +3,7 @@ package model;
 import java.time.Instant;
 
 public class Event {
-    private String rawData;
+    private final String rawData;
     private final Instant timestamp;
 
     public Event(String data){
