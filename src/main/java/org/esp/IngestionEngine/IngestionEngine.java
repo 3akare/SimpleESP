@@ -1,10 +1,11 @@
-package IngestionEngine;
+package org.esp.IngestionEngine;
+
+import org.esp.ProcessingEngine.ProcessingEngine;
+import org.esp.model.Event;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import ProcessingEngine.ProcessingEngine;
-import model.Event;
 
 public class IngestionEngine {
     private final int ingestionPort;

@@ -1,7 +1,8 @@
-package ProcessingEngine;
+package org.esp.ProcessingEngine;
 
-import OutputEngine.OutputEngine;
-import model.Event;
+
+import org.esp.OutputEngine.OutputEngine;
+import org.esp.model.Event;
 
 import java.util.LinkedList;
 import java.util.Queue;
