@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import ProcessingEngine.ProcessingEngine;
+import model.Event;
 
 public class IngestionEngine {
     private final int ingestionPort;
@@ -28,15 +29,17 @@ public class IngestionEngine {
                 socket = serverSocket.accept();
                 System.out.println("[Ingestion Engine]: Client connected: " + socket.getInetAddress());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                String eventDataLine;
+                String eventline;
 
-                while ((eventDataLine = reader.readLine()) != null) {
-                    if (eventDataLine.equalsIgnoreCase("stop")) {
-                        System.out.println("[Ingested]: Received 'stop' from client. Closing connection.");
+
+                while ((eventline = reader.readLine()) != null) {
+                    Event event = new Event(eventline);
+                    if (event.getRawData().equalsIgnoreCase("stop")) {
+                        System.out.println("[Ingestion Engine]: Received 'stop' from client. Closing connection.");
                         break;
                     }
-                    System.out.println("[Ingested]: " + eventDataLine);
-                    processingEngine.processEvent(eventDataLine);
+                    System.out.println("[Ingestion Engine]: Ingested " + event);
+                    processingEngine.processEvent(event);
                 }
                 reader.close();
                 if (!socket.isClosed()) socket.close();

@@ -1,12 +1,15 @@
 import IngestionEngine.IngestionEngine;
+import OutputEngine.OutputEngine;
 import ProcessingEngine.ProcessingEngine;
 
-public class CaseySmall{
-  public static void main(String[] args){
-    int ingestionPort = 8080;
-    int windowSize = 10;
+public class CaseySmall {
+    public static void main(String[] args) {
+        int ingestionPort = 8080;
+        double windowSize = 10;
 
-    ProcessingEngine processingEngine = new ProcessingEngine(windowSize);
-    IngestionEngine ingestionEngine = new IngestionEngine(processingEngine, ingestionPort);
-  }
+        IngestionEngine ingestionEngine = new IngestionEngine(
+                new ProcessingEngine(
+                        new OutputEngine(), windowSize), ingestionPort
+        );
+    }
 }

@@ -1,40 +1,47 @@
 package ProcessingEngine;
 
+import OutputEngine.OutputEngine;
+import model.Event;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ProcessingEngine {
-    private final int windowSize;
-    private final Queue<Integer> numberWindow;
-    private int currentSum;
+    private final Double windowSize;
+    private final OutputEngine outputEngine;
+    private final Queue<Double> numberWindow;
+    private double currentSum;
 
-    public ProcessingEngine(int windowSize){
+    public ProcessingEngine(OutputEngine outputEngine, Double windowSize) {
+        this.outputEngine = outputEngine;
         this.windowSize = windowSize;
         this.currentSum = 0;
-        this.numberWindow = new LinkedList<Integer>();
+        this.numberWindow = new LinkedList<>();
     }
 
-    public void processEvent(String eventDataLine){
-        System.out.println("[Processing Engine]: Processed Event " + eventDataLine);
-        int eventNumber = Integer.parseInt(eventDataLine);
-        numberWindow.add(eventNumber);
-        currentSum += eventNumber;
+    public void processEvent(Event event) {
+        try {
+            System.out.println("[Processing Engine]: Processed Event " + event);
+            double eventNumber = Double.parseDouble(event.getRawData());
+            numberWindow.add(eventNumber);
+            currentSum += eventNumber;
 
-        try{
-            System.out.println("[Processed]: Parsed Event " + eventNumber);
+            System.out.println("[Processing Engine]: Parsed " + eventNumber);
             if (numberWindow.size() > windowSize) {
-                int oldestNumber = numberWindow.remove();
+                double oldestNumber = numberWindow.remove();
                 currentSum -= oldestNumber;
             }
 
-            if (!numberWindow.isEmpty()) {
-                System.out.println("[Processed]: rollingAverage " + currentSum / numberWindow.size());
-            } else {
-                System.out.println("[Processing Engine Info]: Window is empty, no average yet.");
-            }
+            double rollingAverage = currentSum / numberWindow.size();
+            if (rollingAverage > (rollingAverage/2))
+                outputEngine.outputMessage("High value detected: ", rollingAverage);
+            if (!numberWindow.isEmpty())
+                outputEngine.outputMessage(null, rollingAverage);
 
-        } catch(NumberFormatException e){
-            System.out.println("[Processed Engine Error]: Error Parsing eventData " + e.getMessage());
+            else System.out.println("[Processing Engine Info]: Window is empty, no average yet.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("[Processing Engine Error]: Error Parsing eventData " + e.getMessage());
         }
     }
 }
