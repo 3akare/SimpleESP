@@ -7,7 +7,7 @@ public class CaseySmall {
         int ingestionPort = 8080;
         double windowSize = 10;
 
-        IngestionEngine ingestionEngine = new IngestionEngine(
+        new IngestionEngine(
                 new ProcessingEngine(
                         new OutputEngine(), windowSize), ingestionPort
         );

@@ -15,11 +15,6 @@ public class Event {
         return this.rawData;
     }
 
-    public String setRawData(String rawData){
-        this.rawData = rawData;
-        return rawData;
-    }
-
     @Override
     public String toString() {
         return "Event [" +
